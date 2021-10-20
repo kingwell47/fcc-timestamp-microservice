@@ -23,9 +23,11 @@ app.get("/", function (req, res) {
 //   res.json({ greeting: "hello API" });
 // });
 
-// app.get("/api/date", (req, res) => {
-//   res.json({ date: "date" });
-// });
+app.get("/api", (req, res, next) => {
+  let date = new Date();
+  res.json({ unix: date.getTime(), utc: date.toUTCString() });
+  next();
+});
 
 app.get("/api/:date", (req, res, next) => {
   //if date is 2015-12-25
@@ -37,7 +39,7 @@ app.get("/api/:date", (req, res, next) => {
   //should be a number
   // date = new Date('input')
   //send date.toUTCString();
-  let date = new Date(req.params.date);
+  date = new Date(req.params.date);
   if (date.toString() === "Invalid Date") {
     date = new Date(parseInt(req.params.date));
     if (date.toString() === "Invalid Date")
